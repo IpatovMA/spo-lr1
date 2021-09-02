@@ -47,10 +47,6 @@ int main()
     DWORD lpcchValueName = MAX_DATA_LENGTH;
     HKEY phkResult;
     DWORD dwIndex = 0;
-    DWORD retCode;
-    DWORD BufferSize = 8192;
-    PPERF_DATA_BLOCK PerfData = (PPERF_DATA_BLOCK)malloc(BufferSize);
-    DWORD cbData = BufferSize;
     char* lpData = new char[MAX_DATA_LENGTH];
     DWORD lpDataLength = MAX_DATA_LENGTH;
 
@@ -67,9 +63,9 @@ int main()
 
     }
     else cout <<"\nRegOpenKeyEx error:" <<openR<<endl;
-
-
     RegCloseKey(phkResult);
+
+
 
 
 
