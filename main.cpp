@@ -1,5 +1,7 @@
 #include <iostream>
 #include <windows.h>
+#include <inttypes.h>
+#define MAX_DATA_LENGTH 16383
 
 using namespace std;
 
@@ -24,7 +26,6 @@ int main()
     char name_buffer[MAX_PATH];
     char path_buffer[MAX_PATH];
 
-
     HANDLE search = FindFirstVolume(name_buffer, sizeof(name_buffer));
     do {
         ULARGE_INTEGER free_space, total_sapce;
@@ -32,18 +33,45 @@ int main()
         bool f = GetDiskFreeSpaceEx(path_buffer,&free_space,&total_sapce,NULL);
             printf("Find new volume\n\tname: %s\n\tpath: %s\n", name_buffer,path_buffer);
         if (f){
-            printf("\tsapce: %i / %i bytes\n",free_space.QuadPart,total_sapce.QuadPart);
+            printf("\tsapce: %I64u / %I64u bytes\n",free_space.QuadPart,total_sapce.QuadPart);
         }else{
             printf("\tsapce: no data\n");
         }
     }
     while (FindNextVolume(search, name_buffer, sizeof(name_buffer)));
 
-    if (GetLastError() != ERROR_NO_MORE_FILES) {
-        // произошла ошибка, а не штатное оокнчание перебора
-    }
-
     FindVolumeClose(search);
+
+
+    TCHAR lpValueName[MAX_DATA_LENGTH];
+    DWORD lpcchValueName = MAX_DATA_LENGTH;
+    HKEY phkResult;
+    DWORD dwIndex = 0;
+    DWORD retCode;
+    DWORD BufferSize = 8192;
+    PPERF_DATA_BLOCK PerfData = (PPERF_DATA_BLOCK)malloc(BufferSize);
+    DWORD cbData = BufferSize;
+    char* lpData = new char[MAX_DATA_LENGTH];
+    DWORD lpDataLength = MAX_DATA_LENGTH;
+
+    long openR = RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",0, KEY_READ, &phkResult);
+    if (openR == ERROR_SUCCESS)
+    {
+        long enumR = RegEnumValue(phkResult, dwIndex, lpValueName, &lpcchValueName, NULL, NULL, (unsigned char*)lpData, &lpDataLength);
+        if (enumR == ERROR_SUCCESS)
+        {
+            cout << "The value and data is: \n" << lpValueName << ": " << lpData << endl;
+           // printf("%s %s\n", lpValueName,lpData);
+        }
+        else cout <<"\nRegEnumValue error:" <<enumR <<endl;
+
+    }
+    else cout <<"\nRegOpenKeyEx error:" <<openR<<endl;
+
+
+    RegCloseKey(phkResult);
+
+
 
     return 0;
 }
