@@ -53,14 +53,25 @@ int main()
     long openR = RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",0, KEY_READ, &phkResult);
     if (openR == ERROR_SUCCESS)
     {
-        long enumR = RegEnumValue(phkResult, dwIndex, lpValueName, &lpcchValueName, NULL, NULL, (unsigned char*)lpData, &lpDataLength);
-        if (enumR == ERROR_SUCCESS)
-        {
-            cout << "The value and data is: \n" << lpValueName << ": " << lpData << endl;
-           // printf("%s %s\n", lpValueName,lpData);
-        }
-        else cout <<"\nRegEnumValue error:" <<enumR <<endl;
+        cout << "\nSuccsess open HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" << endl;
+        while (1) {
+            long enumR = RegEnumValue(phkResult, dwIndex, lpValueName, &lpcchValueName, NULL, NULL, (unsigned char*)lpData, &lpDataLength);
+            if (enumR == ERROR_SUCCESS)
+            {
+                cout << "The value and data is: \n" << lpValueName << ": " << lpData << endl;
+                dwIndex++;
+            }
+            else{
+                if (enumR == ERROR_NO_MORE_ITEMS)
+                {
+                    cout << "There are no more values available \n" << endl;
+                }
+                else cout <<"\nRegEnumValue error:" <<enumR <<endl;
 
+                break;
+
+            }
+        }
     }
     else cout <<"\nRegOpenKeyEx error:" <<openR<<endl;
     RegCloseKey(phkResult);
