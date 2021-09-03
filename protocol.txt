@@ -1,0 +1,29 @@
+OS version: 602931718
+System directory: C:\Windows\system32
+Computer name: DESKTOP-8J1FC6S
+User name: win10
+Find new volume
+        name: \\?\Volume{56632c5f-be16-4d75-933d-bca74b57eaf8}\
+        path: C:\
+        sapce: 47792111616 / 64300773376 bytes
+Find new volume
+        name: \\?\Volume{85e9eff6-0a8d-11ec-bfd5-000c29f081b0}\
+        path: E:\
+        sapce: 15484223488 / 15486992384 bytes
+Find new volume
+        name: \\?\Volume{c41afdfb-b721-4eef-b3e3-92c2d939fe5e}\
+        path:
+        sapce: no data
+Find new volume
+        name: \\?\Volume{8a603d6c-05c2-11ec-bfcc-806e6f6e6963}\
+        path: D:\
+        sapce: no data
+
+Succsess open HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+There are no more values available
+
+Performance Frequency = 10000000 sec^-1
+Program duration = 246600.200000 usec
+
+Process returned 0 (0x0)   execution time : 0.421 s
+Press any key to continue.
