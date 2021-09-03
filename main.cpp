@@ -7,6 +7,12 @@ using namespace std;
 
 int main()
 {
+    LARGE_INTEGER t_start;
+    LARGE_INTEGER t_fin;
+    LARGE_INTEGER frec;
+
+    QueryPerformanceCounter(&t_start);
+
     printf("OS version: %i\n",GetVersion());
 
     char system_dir[MAX_PATH];
@@ -77,7 +83,14 @@ int main()
     RegCloseKey(phkResult);
 
 
+    QueryPerformanceCounter(&t_fin);
+    QueryPerformanceFrequency(&frec);
+    printf("Performance Frequency = %i sec^-1\n",  frec);
 
+    double ticks = t_fin.QuadPart - t_start.QuadPart;
+    double ticks_per_sec = frec.QuadPart;;
+    double usec = 1e6 * ticks / ticks_per_sec;
+    printf("Program duration = %f usec\n",  usec);
 
 
     return 0;
