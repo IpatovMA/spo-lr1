@@ -13,7 +13,13 @@ int main()
 
     QueryPerformanceCounter(&t_start);
 
-    printf("OS version: %i\n",GetVersion());
+    OSVERSIONINFOA version {};
+    version.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
+
+    GetVersionExA(&version);
+
+    cout<< "OS version: " << version.dwMajorVersion<< '.'<< version.dwMinorVersion<<endl;
+
 
     char system_dir[MAX_PATH];
     GetSystemDirectory(system_dir, MAX_PATH);
@@ -54,13 +60,14 @@ int main()
     HKEY phkResult;
     DWORD dwIndex = 0;
     char* lpData = new char[MAX_DATA_LENGTH];
-    DWORD lpDataLength = MAX_DATA_LENGTH;
+    DWORD lpDataLength;
 
     long openR = RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",0, KEY_READ, &phkResult);
     if (openR == ERROR_SUCCESS)
     {
         cout << "\nSuccsess open HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" << endl;
         while (1) {
+            lpDataLength = MAX_DATA_LENGTH;
             long enumR = RegEnumValue(phkResult, dwIndex, lpValueName, &lpcchValueName, NULL, NULL, (unsigned char*)lpData, &lpDataLength);
             if (enumR == ERROR_SUCCESS)
             {
