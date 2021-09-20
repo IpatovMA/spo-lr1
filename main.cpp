@@ -92,12 +92,13 @@ int main()
 
     QueryPerformanceCounter(&t_fin);
     QueryPerformanceFrequency(&frec);
-    printf("Performance Frequency = %i sec^-1\n",  frec);
+    cout <<"Performance Frequency = "<<frec<<" sec^-1" << endl;
 
     double ticks = t_fin.QuadPart - t_start.QuadPart;
     double ticks_per_sec = frec.QuadPart;;
     double usec = 1e6 * ticks / ticks_per_sec;
-    printf("Program duration = %f usec\n",  usec);
+    cout <<"Performance duration = "<<usec<<" usec" << endl;
+
 
 
     return 0;
